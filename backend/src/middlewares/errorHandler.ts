@@ -1,3 +1,4 @@
+import { isCelebrateError } from 'celebrate';
 import {
   Request, Response, NextFunction, ErrorRequestHandler,
 } from 'express';
@@ -8,10 +9,18 @@ const errorHandler: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-  const statusCode = err.statusCode || 500;
-  const message = statusCode === 500 ? 'На сервере произошла ошибка' : err.message;
+  if (isCelebrateError(err)) {
+    const bodyError = err.details.get('body');
+    const message = bodyError?.details[0].message || 'Ошибка валидации данных';
+    return res.status(400).json({ message });
+  }
 
-  res.status(statusCode).json({ message });
+  const statusCode = err.statusCode || 500;
+  const message = statusCode === 500
+    ? 'На сервере произошла ошибка'
+    : err.message;
+
+  return res.status(statusCode).json({ message });
 };
 
 export default errorHandler;

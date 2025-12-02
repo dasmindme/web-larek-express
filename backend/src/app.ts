@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
-import { errors } from 'celebrate';
 import routers from './routers';
 import errorHandler from './middlewares/errorHandler';
 import { requestLogger, errorLogger } from './middlewares/logger';
@@ -24,7 +23,6 @@ app.use('/', routers);
 
 app.use(errorLogger);
 
-app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {

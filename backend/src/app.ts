@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
-import routers from './routers';
+import routers from './routes';
 import errorHandler from './middlewares/errorHandler';
 import { requestLogger, errorLogger } from './middlewares/logger';
 

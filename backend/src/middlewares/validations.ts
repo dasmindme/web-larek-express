@@ -36,7 +36,9 @@ export const validateOrderBody = celebrate({
   [Segments.BODY]: Joi.object({
     payment: Joi.string().valid('card', 'online').required(),
     email: Joi.string().email().required(),
-    phone: Joi.string().required(),
+    phone: Joi.string()
+      .regex(/^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/)
+      .required(),
     address: Joi.string().required(),
     total: Joi.number().required(),
     items: Joi.array().items(Joi.string().length(24).hex()).min(1).required(),
